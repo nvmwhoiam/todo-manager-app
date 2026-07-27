@@ -1,0 +1,50 @@
+<div class="todo-item<%= task.completed ? ' completed' : '' %> fade-in" data-todo_id="<%= task._id %>">
+    <div class="todo-content">
+        <div class="todo-main">
+            <label class="checkbox_label" aria-label="Toggle completed">
+                <div class="checkbox">
+                    <input type="checkbox" name="todo_check" <%=task.completed ? 'checked' : '' %>>
+                    <span class="checkbox_bg">
+                        <span class="tick_1"></span>
+                        <span class="tick_2"></span>
+                    </span>
+                </div>
+            </label>
+
+            <div class="todo-details">
+                <div class="todo-details-header">
+                    <h4 class="todo-title">
+                        <%= task.title %>
+                    </h4>
+                    <div class="priority-container">
+                        <small class="priority-badge priority-<%= task.priority %>">
+                            <%= task.priority.charAt(0).toUpperCase() + task.priority.slice(1) %>
+                        </small>
+                    </div>
+                </div>
+
+                <div class="todo-details-body">
+                    <small class="created_at">
+                        <i class="icon_clock-solid"></i>
+                        <time>
+                            <%= new Date(task.createdAt).toLocaleDateString() %>
+                        </time>
+                    </small>
+                    <small class="updated_at">
+                        <i class="icon_pencil-solid"></i>
+                        <time>Updated <%= new Date(task.updatedAt).toLocaleDateString() %></time>
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <div class="todo-actions">
+            <button class="btn_icon" data-button="todo_edit" aria-label="Edit task">
+                <i class="icon_pencil-solid"></i>
+            </button>
+            <button class="btn_icon" data-button="todo_delete" aria-label="Delete task">
+                <i class="icon_trash-solid"></i>
+            </button>
+        </div>
+    </div>
+</div>

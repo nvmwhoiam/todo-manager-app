@@ -1,0 +1,63 @@
+<% const categoryTasks=tasks.filter(task=> task.category._id.toString() === category._id.toString()); %>
+
+    <div class="category-card fade-in" data-category_id="<%= category._id %>">
+        <div class="category-header" style="background-color: <%= category.categoryColor %>">
+            <h3 class="category_name">
+                <a href="/category/<%= category._id %>" hreflang="en" aria-label="Category element">
+                    <%= category.categoryName %>
+                </a>
+            </h3>
+            <button type="button" data-btn="delete_category" title="Delete category">
+                <i class="icon_trash-solid"></i>
+            </button>
+        </div>
+
+        <div class="category-body">
+            <div class="category-stats">
+                <span class="font-semibold">
+                    <%= categoryTasks.length %> tasks
+                </span>
+                <% const completedCount=categoryTasks.filter(t=> t.completed).length; %>
+                    <% const percentage=categoryTasks.length> 0 ?
+                        Math.round((completedCount / categoryTasks.length) * 100) : 0; %>
+                        <span class="font-semibold">
+                            <%= completedCount %> / <%= categoryTasks.length %> completed
+                        </span>
+            </div>
+
+            <% if (categoryTasks.length> 0) { %>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: <%= percentage %>%"></div>
+                </div>
+
+                <div class="recent-tasks">
+                    <% const recentTasks=categoryTasks.slice(0, 3); %>
+                        <% recentTasks.forEach(task=> { %>
+                            <div class="task-item">
+
+                                <span class="text<%= task.completed ? ' completed' : '' %>">
+                                    <%= task.title %>
+                                </span>
+
+                                <span class="priority-indicator priority-<%= task.priority %>">
+                                    <i class="icon_flag-solid"></i>
+                                </span>
+
+                            </div>
+
+                            <% }); %>
+
+                                <% if (categoryTasks.length> 3) { %>
+                                    <div class="more-tasks">
+                                        +<%= categoryTasks.length - 3 %> more tasks
+                                    </div>
+                                    <% } %>
+                </div>
+                <% } else { %>
+                    <div class="placeholder">
+                        <i class="icon_clipboard-regular"></i>
+                        <p class="text-sm">No tasks yet. Click to add!</p>
+                    </div>
+                    <% } %>
+        </div>
+    </div>

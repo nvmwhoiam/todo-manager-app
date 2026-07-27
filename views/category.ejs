@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/category.css">
+    <meta name="description"
+        content="A powerful task management application that helps you organize your life through color-coded categories. Create custom categories for different areas of your life.">
+    <meta name="author" content="nvmwhoiam">
+    <meta name="keywords" content="task management,productivity tools,daily planner,to-do list,get things done">
+
+    <title>
+        <%= category.categoryName %> | SADevWorks.com
+    </title>
+</head>
+
+<body>
+    <main class="main_container GRBg2FHmd9">
+
+        <header class="main_header">
+            <h1>
+                <%= category.categoryName %>
+            </h1>
+            <p>Organize your tasks</p>
+        </header>
+
+        <section class="stats-grid">
+            <div class="grid fade-in">
+                <div class="count" data-task="total">
+                    <%= tasks.length %>
+                </div>
+                <div class="text">
+                    Total Tasks
+                </div>
+            </div>
+
+            <div class="grid fade-in">
+                <div class="count" data-task="completed">
+                    <%= tasks.filter(t=> t.completed).length %>
+                </div>
+                <div class="text">
+                    Completed
+                </div>
+            </div>
+
+            <div class="grid fade-in">
+                <div class="count" data-task="pending">
+                    <%= tasks.filter(t=> !t.completed).length %>
+                </div>
+                <div class="text">
+                    Pending
+                </div>
+            </div>
+        </section>
+
+        <div class="categories-container">
+
+            <div class="categories-header">
+                <h2>Tasks</h2>
+                <button type="button" class="btn_primary" data-btn="add_todo" aria-label="Add task">
+                    <i class="icon_plus-solid"></i> Add task
+                </button>
+            </div>
+
+            <div class="empty-state" id="task-placeholder" data-state="<%= tasks.length === 0 ? 'open' : 'closed' %>">
+                <i class="icon_clipboard-regular"></i>
+                <h3>No Tasks Yet</h3>
+                <p>Add your first task to get started!</p>
+            </div>
+
+            <div class="todos-container" id="task-container" data-state="<%= tasks.length > 0 ? 'open' : 'closed' %>">
+                <% tasks.forEach(task=> { %>
+                    <%- include('partials/task-item', { task }) %>
+                        <% }); %>
+            </div>
+
+        </div>
+
+    </main>
+
+    <footer class="footer_container">
+
+        <p class="footer_content">
+            Copyright &copy; 2026. All Rights Reserved | Powered By <a href="https://sadevworks.com" hreflang="en"
+                aria-label="Home page">SADevWorks</a>
+        </p>
+
+    </footer>
+
+    <div class="modal_overlay" data-state="closed">
+
+        <div class="modal" id="todo_modal" data-state="closed">
+
+            <div class="modal_header">
+
+                <h2>Add Task</h2>
+
+                <button type="button" class="btn_icon" data-btn="close_modal" aria-label="Close modal">
+                    <i class="icon_xmark-solid"></i>
+                </button>
+            </div>
+
+            <div class="modal_body">
+
+                <form action="/todos" method="POST" class="form-grid" id="todo_form" data-form="task">
+                    <input type="hidden" name="category" value="<%= category._id %>">
+                    <input type="text" name="title" placeholder="Task Title" required>
+                    <input type="text" name="description" placeholder="Description (optional)">
+                    <select name="priority">
+                        <option value="low">Low Priority</option>
+                        <option value="medium" selected>Medium Priority</option>
+                        <option value="high">High Priority</option>
+                    </select>
+                    <button type="submit" class="btn_primary">
+                        <i class="icon_plus-solid"></i> Add Task
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+
+        <div class="modal" id="todo_edit_modal" data-state="closed">
+
+            <div class="modal_header">
+
+                <h2>Edit Task</h2>
+
+                <button type="button" class="btn_icon" data-btn="close_modal" aria-label="Close modal">
+                    <i class="icon_xmark-solid"></i>
+                </button>
+            </div>
+
+            <div class="modal_body">
+
+                <form action="/todos" method="POST" class="form-grid" id="todo_edit_form">
+                    <input type="text" name="title" value="Task Title" placeholder="Task Title" required>
+                    <input type="text" name="description" placeholder="Description (optional)">
+                    <select name="priority">
+                        <option value="low">Low Priority</option>
+                        <option value="medium" selected>Medium Priority</option>
+                        <option value="high">High Priority</option>
+                    </select>
+                    <button type="submit" class="btn_primary">
+                        <i class="icon_plus-solid"></i> Edit Task
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script type="module" src="/js/category.js"></script>
+</body>
+
+</html>

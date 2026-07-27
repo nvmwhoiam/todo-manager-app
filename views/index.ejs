@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/index.css">
+    <meta name="description"
+        content="A powerful task management application that helps you organize your life through color-coded categories. Create custom categories for different areas of your life.">
+    <meta name="author" content="nvmwhoiam">
+    <meta name="keywords" content="task management,productivity tools,daily planner,to-do list,get things done">
+
+    <title>Todo List Manager | SADevWorks.com</title>
+</head>
+
+<body>
+    <main class="main_container GRBg2FHmd9">
+
+        <header class="main_header">
+            <h1>Todo List Manager</h1>
+            <p>Organize your tasks by categories</p>
+        </header>
+
+        <section class="stats-grid">
+            <div class="grid fade-in">
+                <div class="count" data-category="total">
+                    <%= stats.totalCategories %>
+                </div>
+                <div class="text">Categories</div>
+            </div>
+
+            <div class="grid fade-in">
+                <div class="count" data-task="total">
+                    <%= stats.totalTasks %>
+                </div>
+                <div class="text">Total Tasks</div>
+            </div>
+
+            <div class="grid fade-in">
+                <div class="count" data-task="completed">
+                    <%= stats.completedTasks %>
+                </div>
+                <div class="text">Completed</div>
+            </div>
+
+            <div class="grid fade-in">
+                <div class="count" data-task="pending">
+                    <%= stats.pendingTasks %>
+                </div>
+                <div class="text">To Be Done</div>
+            </div>
+        </section>
+
+        <div class="categories-container">
+
+            <div class="categories-header">
+                <h2>Categories</h2>
+                <button type="button" class="btn_primary" data-btn="add_category" aria-label="Add category">
+                    <i class="icon_plus-solid"></i> Add category
+                </button>
+            </div>
+
+            <div class="category_body" id="category-body">
+
+                <div class="empty-state" id="category-placeholder"
+                    data-state="<%= categories.length === 0 ? 'open' : 'closed' %>">
+                    <i class="icon_clipboard-regular"></i>
+                    <h3>No Categories Yet</h3>
+                    <p>Create your first category to start organizing your todos!</p>
+                </div>
+
+                <div class="categories-grid" id="category-grid"
+                    data-state="<%= categories.length > 0 ? 'open' : 'closed' %>">
+                    <% categories.forEach(category=> { %>
+                        <%- include('partials/category-item', { category }) %>
+                            <% }); %>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <footer class="footer_container">
+
+        <p class="footer_content">
+            Copyright &copy; 2026. All Rights Reserved | Powered By <a href="https://sadevworks.com" hreflang="en"
+                aria-label="Home page">SADevWorks</a>
+        </p>
+
+    </footer>
+
+    <div class="modal_overlay" data-state="closed">
+
+        <div class="modal" id="category_modal" data-state="closed">
+
+            <div class="modal_header">
+
+                <h2>Add Category</h2>
+
+                <button type="button" class="btn_icon" data-btn="close_modal" aria-label="Close modal">
+                    <i class="icon_xmark-solid"></i>
+                </button>
+            </div>
+
+            <div class="modal_body">
+
+                <form action="/categories" method="POST" class="form-grid" data-form="category">
+                    <input type="text" name="name" autocomplete="name" placeholder="Category Name" required>
+
+                    <input type="text" name="description" autocomplete="description"
+                        placeholder="Description (optional)">
+
+                    <input type="color" name="color" value="#6366f1" class="color-input">
+
+                    <button type="submit" class="btn_primary">
+                        <i class="icon_plus-solid"></i> Create Category
+                    </button>
+                </form>
+
+            </div>
+
+            <div class="modal_footer"></div>
+
+        </div>
+
+    </div>
+
+    <script type="module" src="/js/index.js"></script>
+</body>
+
+</html>
